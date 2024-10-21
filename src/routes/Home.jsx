@@ -1,6 +1,7 @@
-import { Children } from "react";
+import PropTypes from "prop-types";
 import { useOutletContext } from "react-router-dom";
 import styled from "styled-components";
+import "../index.css";
 
 const StyledHomeContainer = styled.main`
   height: 100%;
@@ -18,7 +19,7 @@ const StyledHomeContainerHero = styled.section`
 
   background-color: ${({ theme }) => theme.colors.primary};
 
-  transition: all 0.5s ease;
+  transition: color 0.5s ease, background-color 0.5s ease;
 `;
 
 const StyledHomeTextContainer = styled.div``;
@@ -30,6 +31,8 @@ const StyledHomeText = styled.p`
   font-family: ${({ theme }) => theme.fonts.heading};
   font-weight: bold;
   font-size: 5rem;
+
+  transition: color 0.5s ease;
 `;
 
 function HomeContainer({ children }) {
@@ -37,8 +40,7 @@ function HomeContainer({ children }) {
 }
 
 export default function Home() {
-  const theme = useOutletContext();
-  console.log(theme);
+  const { theme } = useOutletContext();
   return (
     <>
       <HomeContainer>
@@ -51,9 +53,17 @@ export default function Home() {
           <img
             src="src/assets/images/HoldingAWP.png"
             alt="Person holding AWP"
+            // style={{
+            //   filter: "drop-shadow(5px 5px 8px rgba(0, 0, 0, 0.4))",
+            // }}
+            className="heroImg"
           />
         </StyledHomeContainerHero>
       </HomeContainer>
     </>
   );
 }
+
+HomeContainer.propTypes = {
+  children: PropTypes.node,
+};

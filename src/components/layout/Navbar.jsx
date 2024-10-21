@@ -25,7 +25,6 @@ const NavHr = styled.hr`
 `;
 
 export default function Navbar({ toggleTheme, currentTheme }) {
-  console.log(currentTheme);
   return (
     <>
       <NavbarBody>

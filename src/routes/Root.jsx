@@ -1,8 +1,9 @@
 import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-
+import useAwpData from "../useAwpData";
+import getAwpPrice from "../getAwpPrice";
 import Navbar from "../components/layout/Navbar";
 
 // Themes:
@@ -49,35 +50,99 @@ const StyledApp = styled.div`
 
 export default function Root() {
   const [theme, setTheme] = useState("light");
+  const { data, error, loading } = useAwpData();
+  const [awpData, setAwpData] = useState({});
   const isDarkTheme = theme === "dark";
 
   function toggleTheme() {
     setTheme(isDarkTheme ? "light" : "dark");
   }
 
-  //   const [data, setData] = useState();
+  function delay(milliseconds) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, milliseconds);
+    });
+  }
 
-  //   useEffect(() => {
-  //     async function dataFetch() {
-  //       const data = await (
-  //         await fetch("https://bymykel.github.io/CSGO-API/api/en/skins.json")
-  //       ).json();
+  async function addAwpPrices(data) {
+    if (!data) return;
 
-  //       const onlyAwps = data.filter((skin) => skin.weapon.name === "AWP");
+    for (const awp of data) {
+      const awpName = awp.name;
+      try {
+        const price = await getAwpPrice(awpName);
+        awp.price = price;
+      } catch (error) {
+        // console.error(`Failed to fetch price for ${awpName}:`, error);
+        awp.price = "No price found!";
+      }
 
-  //       setData(onlyAwps);
-  //     }
+      await delay(5000);
+    }
+    sortAwpData(data);
+  }
 
-  //     dataFetch();
-  //   }, []);
+  async function sortAwpData(data) {
+    if (!data) return;
 
-  //   console.log(data);
+    const allAwps = {
+      industrialGrade: [],
+      milSpecGrade: [],
+      restrictedGrade: [],
+      classifiedGrade: [],
+      covertGrade: [],
+    };
+
+    data.forEach((awp) => {
+      const awpRarity = awp.rarity.name;
+
+      switch (awpRarity) {
+        case "Industrial Grade":
+          allAwps.industrialGrade.push(awp);
+          break;
+
+        case "Mil-Spec Grade":
+          allAwps.milSpecGrade.push(awp);
+          break;
+
+        case "Restricted":
+          allAwps.restrictedGrade.push(awp);
+          break;
+
+        case "Classified":
+          allAwps.classifiedGrade.push(awp);
+          break;
+
+        case "Covert":
+          allAwps.covertGrade.push(awp);
+          break;
+
+        default:
+          console.log(`Unknown rarity: ${awpRarity}`);
+          break;
+      }
+    });
+
+    setAwpData(allAwps);
+  }
+
+  useEffect(() => {
+    if (data) {
+      addAwpPrices(data);
+      // sortAwpData(data);
+    }
+  }, [data]);
+
+  const contextValue = {
+    theme: theme,
+    awpData: awpData,
+  };
 
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <StyledApp>
         <Navbar toggleTheme={toggleTheme} currentTheme={theme} />
-        <Outlet context={theme} />
+        <Outlet context={contextValue} />
       </StyledApp>
     </ThemeProvider>
   );
