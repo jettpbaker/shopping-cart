@@ -77,8 +77,7 @@ export default function Root() {
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <StyledApp>
         <Navbar toggleTheme={toggleTheme} currentTheme={theme} />
-        <h1>Current Theme: {theme}</h1>
-        <Outlet />
+        <Outlet context={theme} />
       </StyledApp>
     </ThemeProvider>
   );
