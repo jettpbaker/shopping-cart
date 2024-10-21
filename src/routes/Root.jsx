@@ -58,29 +58,29 @@ export default function Root() {
     setTheme(isDarkTheme ? "light" : "dark");
   }
 
-  function delay(milliseconds) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, milliseconds);
-    });
-  }
+  // function delay(milliseconds) {
+  //   return new Promise((resolve) => {
+  //     setTimeout(resolve, milliseconds);
+  //   });
+  // }
 
-  async function addAwpPrices(data) {
-    if (!data) return;
+  // async function addAwpPrices(data) {
+  //   if (!data) return;
 
-    for (const awp of data) {
-      const awpName = awp.name;
-      try {
-        const price = await getAwpPrice(awpName);
-        awp.price = price;
-      } catch (error) {
-        // console.error(`Failed to fetch price for ${awpName}:`, error);
-        awp.price = "No price found!";
-      }
+  //   for (const awp of data) {
+  //     const awpName = awp.name;
+  //     try {
+  //       const price = await getAwpPrice(awpName);
+  //       awp.price = price;
+  //     } catch (error) {
+  //       // console.error(`Failed to fetch price for ${awpName}:`, error);
+  //       awp.price = "No price found!";
+  //     }
 
-      await delay(5000);
-    }
-    sortAwpData(data);
-  }
+  //     await delay(5000);
+  //   }
+  //   sortAwpData(data);
+  // }
 
   async function sortAwpData(data) {
     if (!data) return;
@@ -128,8 +128,8 @@ export default function Root() {
 
   useEffect(() => {
     if (data) {
-      addAwpPrices(data);
-      // sortAwpData(data);
+      // addAwpPrices(data);
+      sortAwpData(data);
     }
   }, [data]);
 

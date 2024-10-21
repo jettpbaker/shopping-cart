@@ -1,9 +1,10 @@
-export default async function getAwpPrice(marketName, wear = "Factory New") {
-  const url = `https://api.allorigins.win/get?url=${encodeURIComponent(
-    `https://steamcommunity.com/market/priceoverview/?country=AU&currency=1&appid=730&market_hash_name=${marketName}${
-      wear === "" ? "" : "%20%28" + wear + "%29"
-    }`
-  )}`;
+export default async function getAwpPrice(marketName) {
+  const encodedName = encodeURIComponent(marketName);
+
+  const steamURL = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodedName}`;
+  const url = `https://api.allorigins.win/get?url=${steamURL}%20%28Field-Tested%29`;
+
+  console.log(url);
 
   try {
     const response = await fetch(url, { mode: "cors" });
@@ -17,3 +18,6 @@ export default async function getAwpPrice(marketName, wear = "Factory New") {
     throw error;
   }
 }
+
+// https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=AK-47%20%7C%20Redline%20%28Field-Tested%29
+// https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=AWP%20%7C%20Snake%20Camo%20%28Field-Tested%29
