@@ -40,7 +40,11 @@ function FilterButton({ children, color, ...props }) {
   );
 }
 
-const StyledCardGridContainer = styled.main``;
+const StyledCardGridContainer = styled.main`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 23rem);
+  justify-content: space-between;
+`;
 
 function CardGridContainer({ children }) {
   return <StyledCardGridContainer>{children}</StyledCardGridContainer>;
@@ -62,7 +66,7 @@ const StyledAwpName = styled.h3`
   color: ${({ theme }) => theme.colors.background};
 
   font-family: ${({ theme }) => theme.fonts.main};
-  font-size: 3rem;
+  font-size: 2rem;
 `;
 const StyledImgContainer = styled.div`
   display: flex;
@@ -93,11 +97,13 @@ const StyledCardButton = styled.button`
   }
 `;
 
-function CardButton() {
-  return <StyledCardButton>ADD TO CART</StyledCardButton>;
+function CardButton({ increaseCartCount }) {
+  return (
+    <StyledCardButton onClick={increaseCartCount}>ADD TO CART</StyledCardButton>
+  );
 }
 
-function Card({ awp }) {
+function Card({ awp, increaseCartCount }) {
   return (
     <StyledCard>
       <StyledAwpName>{awp.name.slice(6)}</StyledAwpName>
@@ -105,14 +111,15 @@ function Card({ awp }) {
         <StyledAwpImg src={awp.image}></StyledAwpImg>
       </StyledImgContainer>
       <StyledCardInfo>
-        <CardButton></CardButton>
+        <CardButton increaseCartCount={increaseCartCount}></CardButton>
       </StyledCardInfo>
     </StyledCard>
   );
 }
 
 export default function Store() {
-  const { awpData } = useOutletContext();
+  const { awpData, increaseCartCount } = useOutletContext();
+
   const [awpDataLoaded, setAwpDataLoaded] = useState(
     awpData.classifiedGrade !== undefined
   );
@@ -197,7 +204,13 @@ export default function Store() {
         <>
           <CardGridContainer>
             {currentAwps.map((awp) => {
-              return <Card key={awp.id} awp={awp}></Card>;
+              return (
+                <Card
+                  key={awp.id}
+                  awp={awp}
+                  increaseCartCount={increaseCartCount}
+                ></Card>
+              );
             })}
           </CardGridContainer>
         </>

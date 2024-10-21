@@ -24,14 +24,14 @@ const NavHr = styled.hr`
   margin: 0.2rem 0rem;
 `;
 
-export default function Navbar({ toggleTheme, currentTheme }) {
+export default function Navbar({ toggleTheme, currentTheme, cartCount }) {
   return (
     <>
       <NavbarBody>
         <HeadingMain currentTheme={currentTheme} />
         <NavMain></NavMain>
         <NavEnd>
-          <CartIcon currentTheme={currentTheme} />
+          <CartIcon currentTheme={currentTheme} cartCount={cartCount} />
           <ToggleTheme currentTheme={currentTheme} toggleTheme={toggleTheme} />
         </NavEnd>
       </NavbarBody>
@@ -44,4 +44,5 @@ export default function Navbar({ toggleTheme, currentTheme }) {
 Navbar.propTypes = {
   toggleTheme: PropTypes.func.isRequired,
   currentTheme: PropTypes.string,
+  cartCount: PropTypes.number,
 };

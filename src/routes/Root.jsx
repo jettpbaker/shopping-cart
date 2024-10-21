@@ -50,6 +50,7 @@ const StyledApp = styled.div`
 
 export default function Root() {
   const [theme, setTheme] = useState("light");
+  const [cartCount, setCartCount] = useState(0);
   const { data, error, loading } = useAwpData();
   const [awpData, setAwpData] = useState({});
   const isDarkTheme = theme === "dark";
@@ -58,29 +59,9 @@ export default function Root() {
     setTheme(isDarkTheme ? "light" : "dark");
   }
 
-  // function delay(milliseconds) {
-  //   return new Promise((resolve) => {
-  //     setTimeout(resolve, milliseconds);
-  //   });
-  // }
-
-  // async function addAwpPrices(data) {
-  //   if (!data) return;
-
-  //   for (const awp of data) {
-  //     const awpName = awp.name;
-  //     try {
-  //       const price = await getAwpPrice(awpName);
-  //       awp.price = price;
-  //     } catch (error) {
-  //       // console.error(`Failed to fetch price for ${awpName}:`, error);
-  //       awp.price = "No price found!";
-  //     }
-
-  //     await delay(5000);
-  //   }
-  //   sortAwpData(data);
-  // }
+  function increaseCartCount() {
+    setCartCount((c) => c + 1);
+  }
 
   async function sortAwpData(data) {
     if (!data) return;
@@ -136,12 +117,17 @@ export default function Root() {
   const contextValue = {
     theme: theme,
     awpData: awpData,
+    increaseCartCount,
   };
 
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <StyledApp>
-        <Navbar toggleTheme={toggleTheme} currentTheme={theme} />
+        <Navbar
+          toggleTheme={toggleTheme}
+          currentTheme={theme}
+          cartCount={cartCount}
+        />
         <Outlet context={contextValue} />
       </StyledApp>
     </ThemeProvider>

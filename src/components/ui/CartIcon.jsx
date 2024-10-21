@@ -41,14 +41,16 @@ const StyledCartInfo = styled.div`
   transition: all 0.5s ease;
 `;
 
-const CartInfo = ({ $currentTheme }) => {
-  return <StyledCartInfo $currentTheme={$currentTheme}>1</StyledCartInfo>;
+const CartInfo = ({ $currentTheme, cartCount }) => {
+  return (
+    <StyledCartInfo $currentTheme={$currentTheme}>{cartCount}</StyledCartInfo>
+  );
 };
 
-export default function CartIcon({ currentTheme }) {
+export default function CartIcon({ currentTheme, cartCount }) {
   return (
     <StyledIconButton>
-      <CartInfo $currentTheme={currentTheme}></CartInfo>
+      <CartInfo $currentTheme={currentTheme} cartCount={cartCount}></CartInfo>
 
       <ShoppingCart size={50}></ShoppingCart>
     </StyledIconButton>
@@ -57,8 +59,10 @@ export default function CartIcon({ currentTheme }) {
 
 CartInfo.propTypes = {
   $currentTheme: PropTypes.string,
+  cartCount: PropTypes.number,
 };
 
 CartIcon.propTypes = {
   currentTheme: PropTypes.string,
+  cartCount: PropTypes.number,
 };
