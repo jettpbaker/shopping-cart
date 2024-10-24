@@ -20,8 +20,8 @@ const StyledToggleTheme = styled.button`
 
 export default function ToggleTheme({ toggleTheme, currentTheme }) {
   return (
-    <StyledToggleTheme onClick={toggleTheme}>
-      <StyledIcon $rotate={currentTheme === "dark"}>
+    <StyledToggleTheme onClick={toggleTheme} aria-label="Toggle Theme">
+      <StyledIcon $rotate={currentTheme === "dark"} name="Toggle Theme">
         {currentTheme === "dark" ? <Sun size={50} /> : <Moon size={50} />}
       </StyledIcon>
     </StyledToggleTheme>

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import useAwpData from "../useAwpData";
-import getAwpPrice from "../getAwpPrice";
 import Navbar from "../components/layout/Navbar";
 
 // Themes:
