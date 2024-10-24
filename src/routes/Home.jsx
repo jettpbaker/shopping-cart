@@ -155,7 +155,7 @@ function CreditContainer() {
   return (
     <StyledCreditContainer>
       <img
-        src="public/images/HoldingAWP.png"
+        src="/images/HoldingAWP.png"
         alt="Person holding AWP"
         className="heroImg"
         style={{
