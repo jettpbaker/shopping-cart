@@ -221,7 +221,7 @@ export default function Home() {
             </StyledHomeText>
           </StyledHomeTextContainer>
           <img
-            src="src/assets/images/HoldingAWP.png"
+            src="/images/HoldingAWP.png"
             alt="Person holding AWP"
             // style={{
             //   filter: "drop-shadow(5px 5px 8px rgba(0, 0, 0, 0.4))",
